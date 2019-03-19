@@ -1,0 +1,20 @@
+{
+  "name": "dm_functional_js",
+  "version": "1.0.0",
+  "description": "Functional attempt at Mars Rovers using JavaScript",
+  "main": "src/index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "devDependencies": {
+    "jest": "^24.5.0",
+    "prettier": "^1.16.4"
+  },
+  "dependencies": {
+    "yargs": "^13.2.2"
+  }
+}
