@@ -1,12 +1,16 @@
+import { rover } from "../rover";
+import { coordinates } from "../coordinates";
+
 function parse(input) {
   // TODO: input validation
   const { plateauLine, roverLines, commandLines } = splitInput(input);
 
-  const rovers = roverLines.map(rover);
-  const commands = commandLines.map(commandSequence);
+  const plateau = parsePlateau(plateauLine);
+  const rovers = roverLines.map(parseRover);
+  const commands = commandLines.map(parseCommandSequence);
 
   return {
-    plateau: plateau(plateauLine),
+    plateau,
     rovers,
     commands,
   };
@@ -22,17 +26,22 @@ function splitInput(input) {
   return { plateauLine, roverLines, commandLines };
 }
 
-function plateau(input) {
+function parsePlateau(input) {
   const data = input.split(" ");
   return { width: parseInt(data[0]), height: parseInt(data[1]) };
 }
 
-function rover(input, index) {
+function parseRover(input, index) {
   const data = input.split(" ");
-  return { id: index + 1, orientation: data[2], coordinates: { x: parseInt(data[0]), y: parseInt(data[1]) } };
+
+  const id = index
+  const coords = coordinates(parseInt(data[0]), parseInt(data[1]));
+  const orientation = data[2];
+
+  return rover(id, orientation, coords)
 }
 
-function commandSequence(input, index) {
+function parseCommandSequence(input, index) {
   const data = input.split("");
   return { targetRover: index + 1, commands: data };
 }
