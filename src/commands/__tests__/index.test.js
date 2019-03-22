@@ -1,10 +1,11 @@
 import { commandSequence } from "../index";
+import { turnLeft, turnRight } from "../turning";
 
 test("creates a command sequence", () => {
-  const sequence = commandSequence(5, ["M", "M", "R", "L"]);
+  const sequence = commandSequence(5, ["R", "L"]);
 
   expect(sequence).toEqual({
     targetRoverId: 5,
-    commands: ["M", "M", "R", "L"],
-  })
-})
+    commands: [turnRight, turnLeft],
+  });
+});
