@@ -33,4 +33,8 @@ function unitVector(orientation) {
   return orientationUnitVectors[orientation];
 }
 
-export { rotate, unitVector };
+function orientationToString(orientation) {
+  return orientation;
+}
+
+export { rotate, unitVector, orientationToString };

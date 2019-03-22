@@ -2,6 +2,7 @@ import fs from "fs";
 import { promisify } from "util";
 import { parse } from "./parsing/parser";
 import { executeMission } from "./mission-control";
+import { renderToString } from "./rendering/stringRenderer";
 
 const stat = promisify(fs.stat);
 const readFile = promisify(fs.readFile);
@@ -15,23 +16,24 @@ const argv = require("yargs").option("f", {
   requiresArg: true,
 }).argv;
 
-(async function run(inputFile) {
+async function run(inputFile) {
+  await verifyFileExists(inputFile);
+
+  const fileContent = await readFile(inputFile);
+  const data = parse(fileContent.toString());
+
+  const output = executeMission(data);
+  return renderToString(output);
+}
+
+async function verifyFileExists(inputFile) {
   try {
     await stat(inputFile);
   } catch (e) {
     throw new Error(`Problem reading input file from ${inputFile}`);
   }
-
-  const fileContent = await readFile(inputFile);
-
-  const data = parse(fileContent.toString());
-
-  const { rovers } = executeMission(data);
-
-  const report = rovers.map(roverToString).join("\n");
-  console.log(report);
-})(argv.file);
-
-function roverToString(rover) {
-  return `${rover.coordinates.x} ${rover.coordinates.y} ${rover.orientation}`;
 }
+
+run(argv.file).then(console.log);
+
+export { run };
