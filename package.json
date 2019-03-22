@@ -10,12 +10,35 @@
     "test": "jest",
     "test:watch": "jest --watch"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn run lint-staged",
+      "post-commit": "git update-index --again",
+      "pre-push": "yarn test"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add",
+      "jest --findRelatedTests"
+    ],
+    "*.json": [
+      "prettier --write",
+      "git add"
+    ],
+    "yarn.lock": [
+      "jest --all"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.4.0",
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.4.1",
     "babel-jest": "^24.5.0",
+    "husky": "^1.3.1",
     "jest": "^24.5.0",
+    "lint-staged": "^8.1.5",
     "prettier": "^1.16.4"
   },
   "dependencies": {
