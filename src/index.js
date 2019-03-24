@@ -34,6 +34,10 @@ async function verifyFileExists(inputFile) {
   }
 }
 
-run(argv.file).then(console.log);
+run(argv.file).then(logger);
+
+function logger(...args) {
+  console.log(...args);
+}
 
 export { run };
