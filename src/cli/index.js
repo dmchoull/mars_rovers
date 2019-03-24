@@ -24,8 +24,4 @@ async function verifyFileExists(inputFile) {
   }
 }
 
-function logger(...args) {
-  console.log(...args);
-}
-
-export { run, logger };
+export { run };

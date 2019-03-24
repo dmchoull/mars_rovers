@@ -1,5 +1,6 @@
-import { logger, run } from "./cli";
+import { run } from "./cli";
 import { renderToString } from "./rendering/stringRenderer";
+import { logger } from "./logging";
 
 const argv = require("yargs").option("f", {
   alias: "file",
