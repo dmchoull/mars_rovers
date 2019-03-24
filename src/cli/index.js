@@ -2,19 +2,18 @@ import { promisify } from "util";
 import fs from "fs";
 import { parse } from "../parsing/parser";
 import { executeMission } from "../mission-control";
-import { renderToString } from "../rendering/stringRenderer";
 
 const stat = promisify(fs.stat);
 const readFile = promisify(fs.readFile);
 
-async function run(inputFile) {
+async function run(inputFile, renderer) {
   await verifyFileExists(inputFile);
 
   const fileContent = await readFile(inputFile);
   const data = parse(fileContent.toString());
 
   const output = executeMission(data);
-  return renderToString(output);
+  return renderer(output);
 }
 
 async function verifyFileExists(inputFile) {

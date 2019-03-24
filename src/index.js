@@ -1,4 +1,5 @@
 import { logger, run } from "./cli";
+import { renderToString } from "./rendering/stringRenderer";
 
 const argv = require("yargs").option("f", {
   alias: "file",
@@ -9,4 +10,4 @@ const argv = require("yargs").option("f", {
   requiresArg: true,
 }).argv;
 
-run(argv.file).then(logger);
+run(argv.file, renderToString).then(logger);

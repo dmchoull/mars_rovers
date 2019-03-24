@@ -9,10 +9,12 @@ afterEach(() => {
   console.log.mockRestore();
 });
 
-test("returns the expected output for the sample input file", async () => {
-  const output = await run("./fixtures/sample-input.txt");
+test("returns rendered output using the given renderer", async () => {
+  const output = await run("./fixtures/sample-input.txt", JSON.stringify);
 
-  expect(output).toEqual("1 3 N\n5 1 E");
+  expect(output).toMatchInlineSnapshot(
+    `"{\\"rovers\\":[{\\"id\\":1,\\"orientation\\":\\"N\\",\\"coordinates\\":{\\"x\\":1,\\"y\\":3}},{\\"id\\":2,\\"orientation\\":\\"E\\",\\"coordinates\\":{\\"x\\":5,\\"y\\":1}}]}"`
+  );
 });
 
 test("logger logs using console.log", () => {
