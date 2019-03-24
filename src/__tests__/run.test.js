@@ -1,5 +1,5 @@
 import "@babel/polyfill";
-import { run } from "..";
+import { run } from "../run";
 
 test("returns rendered output using the given renderer", async () => {
   const output = await run("./fixtures/sample-input.txt", JSON.stringify);

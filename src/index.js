@@ -1,4 +1,4 @@
-import { run } from "./cli";
+import { run } from "./run";
 import { renderToString } from "./rendering/stringRenderer";
 import { logger } from "./logging";
 

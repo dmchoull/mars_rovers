@@ -1,7 +1,7 @@
 import fs from "fs";
 import { promisify } from "util";
-import { parse } from "../core/parsing/parser";
-import { executeMission } from "../core/mission-control";
+import { parse } from "./core/parsing/parser";
+import { executeMission } from "./core/mission-control";
 
 const stat = promisify(fs.stat);
 const readFile = promisify(fs.readFile);
