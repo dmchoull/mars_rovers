@@ -4,8 +4,8 @@ function plateau(topRightCoordinate) {
   return {
     bounds: {
       lower: coordinates(0, 0),
-      upper: topRightCoordinate
-    }
+      upper: topRightCoordinate,
+    },
   };
 }
 

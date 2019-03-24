@@ -21,7 +21,7 @@ function parse(input) {
 function splitInput(input) {
   const lines = input.split("\n").filter(Boolean);
   const [plateauLine, ...remainingLines] = lines;
-  
+
   const roverLines = remainingLines.filter((_line, index) => index % 2 === 0);
   const commandLines = remainingLines.filter((_line, index) => index % 2 !== 0);
 
@@ -30,17 +30,17 @@ function splitInput(input) {
 
 function parsePlateau(input) {
   const data = input.split(" ");
-  return plateau(coordinates(parseInt(data[0]), parseInt(data[1])))
+  return plateau(coordinates(parseInt(data[0]), parseInt(data[1])));
 }
 
 function parseRover(input, index) {
   const data = input.split(" ");
 
-  const id = index + 1
+  const id = index + 1;
   const coords = coordinates(parseInt(data[0]), parseInt(data[1]));
   const orientation = data[2];
 
-  return rover(id, orientation, coords)
+  return rover(id, orientation, coords);
 }
 
 function parseCommandSequence(input, index) {

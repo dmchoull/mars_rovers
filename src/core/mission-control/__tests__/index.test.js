@@ -2,7 +2,7 @@ import { plateau } from "../../plateau";
 import { coordinates } from "../../coordinates";
 import { rover } from "../../rover";
 import { commandSequence } from "../../commands";
-import { executeMission } from "../index";
+import { executeMission } from "..";
 
 test("runs mission and returns final state of the rovers", () => {
   const missionData = {

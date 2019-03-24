@@ -5,8 +5,8 @@ function turn(rotation, rover) {
   return { ...rover, orientation: newOrientation };
 }
 
-const turnRight = (rover) => turn(90, rover)
+const turnRight = rover => turn(90, rover);
 
-const turnLeft = (rover) => turn(-90, rover)
+const turnLeft = rover => turn(-90, rover);
 
-export { turnRight, turnLeft }
+export { turnRight, turnLeft };

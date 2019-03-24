@@ -1,4 +1,4 @@
-import { commandSequence } from "../index";
+import { commandSequence } from "..";
 import { turnLeft, turnRight } from "../turning";
 
 test("creates a command sequence", () => {

@@ -1,4 +1,4 @@
-import { plateau } from "../index";
+import { plateau } from "..";
 import { coordinates } from "../../coordinates";
 
 test("creates a plateau", () => {
