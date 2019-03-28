@@ -1,12 +1,16 @@
-import { coordinates } from "../coordinates";
+import { coordinates, within } from "../coordinates";
 
-function plateau(topRightCoordinate) {
+function plateau(topRightCoordinates) {
   return {
     bounds: {
       lower: coordinates(0, 0),
-      upper: topRightCoordinate,
+      upper: topRightCoordinates,
     },
   };
 }
 
-export { plateau };
+function contains(plateau, coordinates) {
+  return within(plateau.bounds, coordinates);
+}
+
+export { plateau, contains };

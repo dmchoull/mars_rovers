@@ -10,4 +10,8 @@ function coordinatesToString({ x, y }) {
   return `${x} ${y}`;
 }
 
-export { coordinates, add, coordinatesToString };
+function within({ upper, lower }, { x, y }) {
+  return x >= lower.x && y >= lower.y && x <= upper.x && y <= upper.y;
+}
+
+export { coordinates, add, coordinatesToString, within };
