@@ -1,5 +1,5 @@
 function executeMission({ plateau, rovers, commands }) {
-  const executeCommandSequenceWithRovers = commandSequence => executeCommandSequence(rovers, commandSequence);
+  const executeCommandSequenceWithRovers = executeCommandSequence(rovers, plateau);
   const finalRovers = commands.map(executeCommandSequenceWithRovers);
 
   return {
@@ -7,9 +7,11 @@ function executeMission({ plateau, rovers, commands }) {
   };
 }
 
-function executeCommandSequence(rovers, commandSequence) {
-  const targetRover = findRoverById(rovers, commandSequence.targetRoverId);
-  return commandSequence.commands.reduce((rov, cmd) => cmd(rov), targetRover);
+function executeCommandSequence(rovers, plateau) {
+  return function(commandSequence) {
+    const targetRover = findRoverById(rovers, commandSequence.targetRoverId);
+    return commandSequence.commands.reduce((rov, cmd) => cmd(rov, plateau), targetRover);
+  };
 }
 
 function findRoverById(rovers, id) {

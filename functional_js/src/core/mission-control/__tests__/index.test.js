@@ -7,14 +7,14 @@ import { executeMission } from "..";
 test("runs mission and returns final state of the rovers", () => {
   const missionData = {
     plateau: plateau(coordinates(5, 5)),
-    rovers: [rover(1, "N", coordinates(1, 2)), rover(2, "E", coordinates(3, 3))],
+    rovers: [rover(1, "N", coordinates(1, 2)), rover(2, "W", coordinates(0, 5))],
     commands: [
       commandSequence(1, ["L", "M", "L", "M", "L", "M", "L", "M", "M"]),
-      commandSequence(2, ["M", "M", "R", "M", "M", "R", "M", "R", "R", "M"]),
+      commandSequence(2, ["M", "R", "M", "M", "R", "M", "M", "R", "M"]),
     ],
   };
 
   const { rovers } = executeMission(missionData);
 
-  expect(rovers).toEqual([rover(1, "N", coordinates(1, 3)), rover(2, "E", coordinates(5, 1))]);
+  expect(rovers).toEqual([rover(1, "N", coordinates(1, 3)), rover(2, "S", coordinates(2, 4))]);
 });
