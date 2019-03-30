@@ -22,11 +22,14 @@ function splitInput(input) {
   const lines = input.split("\n").filter(Boolean);
   const [plateauLine, ...remainingLines] = lines;
 
-  const roverLines = remainingLines.filter((_line, index) => index % 2 === 0);
-  const commandLines = remainingLines.filter((_line, index) => index % 2 !== 0);
+  const roverLines = remainingLines.filter(isEvenNumberedLine);
+  const commandLines = remainingLines.filter(isOddNumberedLine);
 
   return { plateauLine, roverLines, commandLines };
 }
+
+const isEvenNumberedLine = (_line, index) => index % 2 === 0;
+const isOddNumberedLine = (_line, index) => index % 2 !== 0;
 
 function parsePlateau(input) {
   const data = input.split(" ");
