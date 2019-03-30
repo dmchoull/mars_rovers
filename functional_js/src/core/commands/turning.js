@@ -1,12 +1,13 @@
+import { curry } from "folktale/core/lambda";
 import { rotate } from "../orientation";
 
-function turn(rotation, rover) {
+const turn = curry(2, (rotation, rover) => {
   const newOrientation = rotate(rover.orientation, rotation);
   return { ...rover, orientation: newOrientation };
-}
+});
 
-const turnRight = rover => turn(90, rover);
+const turnRight = turn(90);
 
-const turnLeft = rover => turn(-90, rover);
+const turnLeft = turn(-90);
 
 export { turnRight, turnLeft };
