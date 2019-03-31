@@ -2,20 +2,15 @@ import { plateau } from "../plateau";
 import { rover } from "../rover";
 import { coordinates } from "../coordinates";
 import { commandSequence } from "../commands";
+import { validateInput } from "./validation";
 
 function parse(input) {
-  // TODO: input validation
-  const { plateauLine, roverLines, commandLines } = splitInput(input);
+  const inputLines = splitInput(input);
 
-  const plateau = parsePlateau(plateauLine);
-  const rovers = roverLines.map(parseRover);
-  const commands = commandLines.map(parseCommandSequence);
-
-  return {
-    plateau,
-    rovers,
-    commands,
-  };
+  return validateInput(inputLines).matchWith({
+    Success: ({ value }) => parseInputLines(value),
+    Failure: ({ value }) => ({ errors: value }),
+  });
 }
 
 function splitInput(input) {
@@ -30,6 +25,18 @@ function splitInput(input) {
 
 const isEvenNumberedLine = (_line, index) => index % 2 === 0;
 const isOddNumberedLine = (_line, index) => index % 2 !== 0;
+
+function parseInputLines({ plateauLine, roverLines, commandLines }) {
+  const plateau = parsePlateau(plateauLine);
+  const rovers = roverLines.map(parseRover);
+  const commands = commandLines.map(parseCommandSequence);
+
+  return {
+    plateau,
+    rovers,
+    commands,
+  };
+}
 
 function parsePlateau(input) {
   const data = input.split(" ");
