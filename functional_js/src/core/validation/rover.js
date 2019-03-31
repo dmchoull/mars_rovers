@@ -1,4 +1,5 @@
 import { Failure, Success } from "folktale/validation";
+import { areValidCoordinates } from "./coordinates";
 
 function isValidRover(rover) {
   return Success()
@@ -7,9 +8,7 @@ function isValidRover(rover) {
 }
 
 function hasValidCoordinates(rover) {
-  const { x, y } = rover.coordinates || {};
-  const validCoordinates = x && y && x >= 0 && y >= 0;
-  return validCoordinates ? Success(rover) : Failure(["invalid coordinates"]);
+  return areValidCoordinates(rover.coordinates) ? Success(rover) : Failure(["invalid coordinates"]);
 }
 
 const roverDirectionRegExp = /[NESW]$/;
