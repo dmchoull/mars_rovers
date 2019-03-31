@@ -12,6 +12,10 @@ async function run(inputFile, renderer) {
   const fileContent = await readFile(inputFile);
   const data = parse(fileContent.toString());
 
+  if (data.errors) {
+    return displayErrors(data.errors);
+  }
+
   const output = executeMission(data);
   return renderer(output);
 }
@@ -22,6 +26,16 @@ async function verifyFileExists(inputFile) {
   } catch (e) {
     throw new Error(`Problem reading input file from ${inputFile}`);
   }
+}
+
+function displayErrors(errors) {
+  const title = "Unable to parse input file. The following issues were detected in the input file:\n";
+  const errorMessages = errors.map(formatError).join("\n");
+  return `${title}\n${errorMessages}\n`;
+}
+
+function formatError(e) {
+  return ` ⚠️  ${e}`;
 }
 
 export { run };
