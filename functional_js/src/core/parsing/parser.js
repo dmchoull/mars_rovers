@@ -1,11 +1,13 @@
+import { compose } from "folktale/core/lambda";
 import { plateau } from "../plateau";
 import { rover } from "../rover";
 import { coordinates } from "../coordinates";
 import { commandSequence } from "../commands";
 
-function parse(input) {
-  return parseInputLines(splitInput(input));
-}
+const parse = compose(
+  parseInputLines,
+  splitInput
+);
 
 function splitInput(input) {
   const lines = input.split("\n").filter(Boolean);
