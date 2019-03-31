@@ -18,15 +18,3 @@ test("parses valid input", () => {
 
   expect(parsedData).toEqual(expectedData);
 });
-
-test("returns validation errors when input is invalid", () => {
-  const { errors } = parse("5\n1 2 X\nMMX\n");
-
-  expect(errors).toMatchInlineSnapshot(`
-Array [
-  "plateau line must contain valid coordinates",
-  "invalid direction",
-  "invalid command sequence",
-]
-`);
-});

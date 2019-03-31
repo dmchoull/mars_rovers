@@ -2,15 +2,9 @@ import { plateau } from "../plateau";
 import { rover } from "../rover";
 import { coordinates } from "../coordinates";
 import { commandSequence } from "../commands";
-import { validateInput } from "./validation";
 
 function parse(input) {
-  const inputLines = splitInput(input);
-
-  return validateInput(inputLines).matchWith({
-    Success: ({ value }) => parseInputLines(value),
-    Failure: ({ value }) => ({ errors: value }),
-  });
+  return parseInputLines(splitInput(input));
 }
 
 function splitInput(input) {
