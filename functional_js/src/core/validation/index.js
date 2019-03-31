@@ -6,10 +6,11 @@ import { isValidCommandSequence } from "./commands";
 
 const MissionData = curry(3, (plateau, rovers, commands) => ({ plateau, rovers, commands }));
 
-function validateMissionData({ plateau, rovers, commands }) {
+function validateMissionData(missionData) {
+  const { plateau, rovers, commands } = missionData;
   return Success(MissionData)
     .apply(isValidPlateau(plateau))
-    .apply(collect(rovers.map(isValidRover)).map(_ => rovers))
+    .apply(collect(rovers.map(isValidRover(plateau))).map(_ => rovers))
     .apply(collect(commands.map(isValidCommandSequence)).map(_ => commands));
 }
 
