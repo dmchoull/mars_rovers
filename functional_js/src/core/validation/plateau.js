@@ -1,15 +1,14 @@
 import { Success, Failure } from "folktale/validation";
 
-function isValidPlateau(plateauLine) {
-  return hasValidCoordinates(plateauLine);
+function isValidPlateau(plateau) {
+  return hasValidCoordinates(plateau);
 }
 
-const validPlateauRegExp = /^\d+\s+\d+$/;
+function hasValidCoordinates(plateau) {
+  const { x, y } = plateau.bounds.upper || {};
+  const validCoordinates = x && y && x >= 0 && y >= 0;
 
-function hasValidCoordinates(plateauLine) {
-  return validPlateauRegExp.test(plateauLine)
-    ? Success(plateauLine)
-    : Failure(["plateau line must contain valid coordinates"]);
+  return validCoordinates ? Success(plateau) : Failure(["plateau upper right boundary coordinates are invalid"]);
 }
 
 export { isValidPlateau };

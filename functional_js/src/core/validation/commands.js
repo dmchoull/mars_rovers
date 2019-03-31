@@ -1,13 +1,19 @@
-import { Success, Failure } from "folktale/validation";
+import { Failure, Success } from "folktale/validation";
+import { move } from "../commands/moving";
+import { turnLeft, turnRight } from "../commands/turning";
 
-function isValidCommandSequence(commandLine) {
-  return containsOnlyValidCommands(commandLine);
+function isValidCommandSequence(commandSequence) {
+  return containsOnlyValidCommands(commandSequence);
 }
 
-const validCommandsRegExp = /^[MLR]+$/;
+function containsOnlyValidCommands(commandSequence) {
+  return commandSequence.commands.every(isValidCommand)
+    ? Success(commandSequence)
+    : Failure(["command sequence contains an invalid command"]);
+}
 
-function containsOnlyValidCommands(commandLine) {
-  return validCommandsRegExp.test(commandLine) ? Success(commandLine) : Failure(["invalid command sequence"]);
+function isValidCommand(cmd) {
+  return [move, turnLeft, turnRight].includes(cmd);
 }
 
 export { isValidCommandSequence };

@@ -1,21 +1,21 @@
 import { Failure, Success } from "folktale/validation";
 
-function isValidRover(roverLine) {
+function isValidRover(rover) {
   return Success()
-    .concat(hasValidCoordinates(roverLine))
-    .concat(hasValidDirection(roverLine));
+    .concat(hasValidCoordinates(rover))
+    .concat(hasValidDirection(rover));
 }
 
-const roverCoordinatesRegExp = /^\d+\s+\d+/;
-
-function hasValidCoordinates(roverLine) {
-  return roverCoordinatesRegExp.test(roverLine) ? Success(roverLine) : Failure(["invalid coordinates"]);
+function hasValidCoordinates(rover) {
+  const { x, y } = rover.coordinates || {};
+  const validCoordinates = x && y && x >= 0 && y >= 0;
+  return validCoordinates ? Success(rover) : Failure(["invalid coordinates"]);
 }
 
-const roverDirectionRegExp = /([NESW])$/;
+const roverDirectionRegExp = /[NESW]$/;
 
-function hasValidDirection(roverLine) {
-  return roverDirectionRegExp.test(roverLine) ? Success(roverLine) : Failure(["invalid direction"]);
+function hasValidDirection(rover) {
+  return roverDirectionRegExp.test(rover.orientation) ? Success(rover) : Failure(["invalid direction"]);
 }
 
 export { isValidRover };

@@ -4,13 +4,13 @@ import { isValidPlateau } from "./plateau";
 import { isValidRover } from "./rover";
 import { isValidCommandSequence } from "./commands";
 
-const InputLines = curry(3, (plateauLine, roverLines, commandLines) => ({ plateauLine, roverLines, commandLines }));
+const MissionData = curry(3, (plateau, rovers, commands) => ({ plateau, rovers, commands }));
 
-function validateInput({ plateauLine, roverLines, commandLines }) {
-  return Success(InputLines)
-    .apply(isValidPlateau(plateauLine))
-    .apply(collect(roverLines.map(isValidRover)).map(_ => roverLines))
-    .apply(collect(commandLines.map(isValidCommandSequence)).map(_ => commandLines));
+function validateMissionData({ plateau, rovers, commands }) {
+  return Success(MissionData)
+    .apply(isValidPlateau(plateau))
+    .apply(collect(rovers.map(isValidRover)).map(_ => rovers))
+    .apply(collect(commands.map(isValidCommandSequence)).map(_ => commands));
 }
 
-export { validateInput };
+export { validateMissionData };

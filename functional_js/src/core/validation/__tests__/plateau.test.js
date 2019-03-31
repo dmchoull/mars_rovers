@@ -1,10 +1,22 @@
 import { Success, Failure } from "folktale/validation";
+import { coordinates } from "../../coordinates";
+import { plateau } from "../../plateau";
 import { isValidPlateau } from "../plateau";
 
 test("returns success for valid plateau line", () => {
-  expect(isValidPlateau("5 42")).toEqual(Success("5 42"));
+  const validPlateau = plateau(coordinates(5, 5));
+  expect(isValidPlateau(validPlateau)).toEqual(Success(validPlateau));
 });
 
-test("returns failure for an invalid plateau line", () => {
-  expect(isValidPlateau("5")).toEqual(Failure(["plateau line must contain valid coordinates"]));
+test.each`
+  invalidCoordinates
+  ${coordinates(NaN, 2)}
+  ${coordinates(1, null)}
+  ${coordinates(1, -2)}
+  ${coordinates(-1, 2)}
+  ${undefined}
+`("identifies plateau with coordinates $invalidCoordinates as invalid", ({ invalidCoordinates }) => {
+  expect(isValidPlateau(plateau(invalidCoordinates))).toEqual(
+    Failure(["plateau upper right boundary coordinates are invalid"])
+  );
 });
