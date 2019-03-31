@@ -1,6 +1,7 @@
 import fs from "fs";
 import { promisify } from "util";
 import { parse } from "./core/parsing/parser";
+import { validateMissionData } from "./core/validation";
 import { executeMission } from "./core/mission-control";
 
 const stat = promisify(fs.stat);
@@ -12,12 +13,10 @@ async function run(inputFile, renderer) {
   const fileContent = await readFile(inputFile);
   const data = parse(fileContent.toString());
 
-  if (data.errors) {
-    return displayErrors(data.errors);
-  }
-
-  const output = executeMission(data);
-  return renderer(output);
+  return validateMissionData(data).matchWith({
+    Success: ({ value: data }) => renderer(executeMission(data)),
+    Failure: ({ value: errors }) => displayErrors(errors),
+  });
 }
 
 async function verifyFileExists(inputFile) {
@@ -29,7 +28,7 @@ async function verifyFileExists(inputFile) {
 }
 
 function displayErrors(errors) {
-  const title = "Unable to parse input file. The following issues were detected in the input file:\n";
+  const title = "Unable to execute the mission. The following issues were detected:\n";
   const errorMessages = errors.map(formatError).join("\n");
   return `${title}\n${errorMessages}\n`;
 }
