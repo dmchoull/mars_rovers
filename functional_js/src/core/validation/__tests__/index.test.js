@@ -27,6 +27,6 @@ test("returns all failures with invalid mission data", () => {
   };
 
   expect(validateMissionData(invalidData)).toEqual(
-    Failure(["invalid direction", "command sequence contains an invalid command"])
+    Failure(['invalid direction "X"', "command sequence contains an invalid command"])
   );
 });

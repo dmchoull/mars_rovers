@@ -14,7 +14,7 @@ test("returns formatted errors if input is invalid", () => {
   expect(result.merge()).toMatchInlineSnapshot(`
 "Unable to execute the mission. The following issues were detected:
 
- ⚠️  plateau upper right boundary coordinates are invalid
+ ⚠️  plateau upper right boundary coordinates \\"1 NaN\\" are invalid
  ⚠️  command sequence contains an invalid command
 "
 `);

@@ -1,8 +1,9 @@
-import { Success, Failure } from "folktale/validation";
+import { Success } from "folktale/validation";
 import { rover } from "../../rover";
 import { plateau } from "../../plateau";
 import { coordinates } from "../../coordinates";
 import { isValidRover } from "../rover";
+import { expectFailure } from "../../../../test/utils";
 
 const validPlateau = plateau(coordinates(3, 4));
 
@@ -24,7 +25,7 @@ test.each`
 `("identifies rover with coordinates $invalidCoordinates as invalid", ({ invalidCoordinates }) => {
   const validation = isValidRover(validPlateau, rover(1, "N", invalidCoordinates));
 
-  expect(validation).toEqual(Failure(["invalid coordinates"]));
+  expectFailure(validation, /invalid coordinates/);
 });
 
 test.each`
@@ -35,7 +36,7 @@ test.each`
 `("identifies rover with direction $invalidDirection as invalid", ({ invalidDirection }) => {
   const validation = isValidRover(validPlateau, rover(1, invalidDirection, coordinates(1, 2)));
 
-  expect(validation).toEqual(Failure(["invalid direction"]));
+  expectFailure(validation, /invalid direction/);
 });
 
 test("considers 0, 0 coordinates to be valid", () => {
@@ -48,7 +49,7 @@ test("considers 0, 0 coordinates to be valid", () => {
 test("returns a failure if the rover is outside of the plateau bounds", () => {
   const validation = isValidRover(validPlateau, rover(1, "N", coordinates(3, 5)));
 
-  expect(validation).toEqual(Failure(["rover position is outside of the plateau bounds"]));
+  expectFailure(validation, /rover position "3 5" is outside of the plateau bounds/);
 });
 
 test("returns success for the rover if the plateau has invalid coordinates", () => {
@@ -65,5 +66,5 @@ test("returns multiple failures", () => {
 
   const validation = isValidRover(validPlateau, invalidRover);
 
-  expect(validation).toEqual(Failure(["invalid coordinates", "invalid direction"]));
+  expectFailure(validation, /invalid coordinates.+,invalid direction/);
 });

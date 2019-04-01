@@ -1,7 +1,8 @@
-import { Success, Failure } from "folktale/validation";
+import { Success } from "folktale/validation";
 import { coordinates } from "../../coordinates";
 import { plateau } from "../../plateau";
 import { isValidPlateau } from "../plateau";
+import { expectFailure } from "../../../../test/utils";
 
 test("returns success for valid plateau line", () => {
   const validPlateau = plateau(coordinates(5, 5));
@@ -16,9 +17,9 @@ test.each`
   ${coordinates(-1, 2)}
   ${undefined}
 `("identifies plateau with coordinates $invalidCoordinates as invalid", ({ invalidCoordinates }) => {
-  expect(isValidPlateau(plateau(invalidCoordinates))).toEqual(
-    Failure(["plateau upper right boundary coordinates are invalid"])
-  );
+  const validation = isValidPlateau(plateau(invalidCoordinates));
+
+  expectFailure(validation, /plateau upper right boundary coordinates ".+" are invalid/);
 });
 
 test("considers 0, 0 coordinates to be valid", () => {
