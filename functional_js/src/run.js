@@ -1,30 +1,27 @@
-import fs from "fs";
-import { promisify } from "util";
+import { readFileSync } from "fs";
+import Result from "folktale/result";
 import { parse } from "./core/parsing/parser";
 import { validateMissionData } from "./core/validation";
 import { executeMission } from "./core/mission-control";
 
-const stat = promisify(fs.stat);
-const readFile = promisify(fs.readFile);
+function run(inputFilePath, renderer) {
+  return readInputFile(inputFilePath).matchWith({
+    Ok: ({ value: fileContent }) => runMission(fileContent, renderer),
+    Error: ({ value: error }) => displayInputFileError(error),
+  });
+}
 
-async function run(inputFile, renderer) {
-  await verifyFileExists(inputFile);
+function readInputFile(path) {
+  return Result.try(() => readFileSync(path));
+}
 
-  const fileContent = await readFile(inputFile);
+function runMission(fileContent, renderer) {
   const data = parse(fileContent.toString());
 
   return validateMissionData(data).matchWith({
     Success: ({ value: data }) => renderer(executeMission(data)),
     Failure: ({ value: errors }) => displayErrors(errors),
   });
-}
-
-async function verifyFileExists(inputFile) {
-  try {
-    await stat(inputFile);
-  } catch (e) {
-    throw new Error(`Problem reading input file from ${inputFile}`);
-  }
 }
 
 function displayErrors(errors) {
@@ -35,6 +32,10 @@ function displayErrors(errors) {
 
 function formatError(e) {
   return ` ⚠️  ${e}`;
+}
+
+function displayInputFileError(error) {
+  return `Problem reading input file: ${error.message}`;
 }
 
 export { run };

@@ -20,4 +20,6 @@ const argv = require("yargs")
     requiresArg: true,
   }).argv;
 
-run(argv.file, selectRenderer(argv.format)).then(logger);
+const renderer = selectRenderer(argv.format);
+const output = run(argv.file, renderer);
+logger(output);
