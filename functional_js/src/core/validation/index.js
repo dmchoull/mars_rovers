@@ -10,8 +10,12 @@ function validateMissionData(missionData) {
   const { plateau, rovers, commands } = missionData;
   return Success(MissionData)
     .apply(isValidPlateau(plateau))
-    .apply(collect(rovers.map(isValidRover(plateau))).map(_ => rovers))
-    .apply(collect(commands.map(isValidCommandSequence)).map(_ => commands));
+    .apply(validateAll(rovers, isValidRover(plateau)))
+    .apply(validateAll(commands, isValidCommandSequence));
+}
+
+function validateAll(list, validationFn) {
+  return collect(list.map(validationFn)).map(_ => list);
 }
 
 export { validateMissionData };
