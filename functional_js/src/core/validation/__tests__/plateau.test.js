@@ -20,3 +20,8 @@ test.each`
     Failure(["plateau upper right boundary coordinates are invalid"])
   );
 });
+
+test("considers 0, 0 coordinates to be valid", () => {
+  const validPlateau = plateau(coordinates(0, 0));
+  expect(isValidPlateau(validPlateau)).toEqual(Success(validPlateau));
+});

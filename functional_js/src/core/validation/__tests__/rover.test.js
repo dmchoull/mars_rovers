@@ -38,6 +38,13 @@ test.each`
   expect(validation).toEqual(Failure(["invalid direction"]));
 });
 
+test("considers 0, 0 coordinates to be valid", () => {
+  const validRover = rover(1, "N", coordinates(0, 0));
+  const validation = isValidRover(validPlateau, validRover);
+
+  expect(validation).toEqual(Success(validRover));
+});
+
 test("returns a failure if the rover is outside of the plateau bounds", () => {
   const validation = isValidRover(validPlateau, rover(1, "N", coordinates(3, 5)));
 
