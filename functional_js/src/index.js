@@ -20,6 +20,8 @@ const argv = require("yargs")
     requiresArg: true,
   }).argv;
 
-const renderer = selectRenderer(argv.format);
-const output = run(argv.file, renderer);
-logger(output);
+const result = run(argv.file, selectRenderer(argv.format));
+
+logger(result.merge());
+
+result.matchWith({ Ok: () => {}, Error: () => process.exit(1) });

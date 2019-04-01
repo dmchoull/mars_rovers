@@ -5,23 +5,28 @@ import { validateMissionData } from "./core/validation";
 import { executeMission } from "./core/mission-control";
 
 function run(inputFilePath, renderer) {
-  return readInputFile(inputFilePath).matchWith({
-    Ok: ({ value: fileContent }) => runMission(fileContent, renderer),
-    Error: ({ value: error }) => displayInputFileError(error),
-  });
+  return readInputFile(inputFilePath)
+    .chain(parseInput)
+    .chain(validate)
+    .chain(execute)
+    .map(renderer)
+    .mapError(displayErrors);
 }
 
 function readInputFile(path) {
-  return Result.try(() => readFileSync(path));
+  return Result.try(() => readFileSync(path)).mapError(e => [e]);
 }
 
-function runMission(fileContent, renderer) {
-  const data = parse(fileContent.toString());
+function parseInput(fileContent) {
+  return Result.of(parse(fileContent.toString()));
+}
 
-  return validateMissionData(data).matchWith({
-    Success: ({ value: data }) => renderer(executeMission(data)),
-    Failure: ({ value: errors }) => displayErrors(errors),
-  });
+function validate(missionData) {
+  return Result.fromValidation(validateMissionData(missionData));
+}
+
+function execute(missionData) {
+  return Result.of(executeMission(missionData));
 }
 
 function displayErrors(errors) {
@@ -32,10 +37,6 @@ function displayErrors(errors) {
 
 function formatError(e) {
   return ` ⚠️  ${e}`;
-}
-
-function displayInputFileError(error) {
-  return `Problem reading input file: ${error.message}`;
 }
 
 export { run };
